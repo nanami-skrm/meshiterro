@@ -1,6 +1,9 @@
 <div class="profile-container">
   <h3 class="profile-name"><%= @user.name %></h3>
-  <%= image_tag('sample-author1.jpg', class: "img-circle pull-left profile-thumb", style: "width: 100px; height: 100px; margin-top: 20px;") %>
+   <%= attachment_image_tag @user, :profile_image, :fill, 60, 60, format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
+　<% if @user.id == current_user.id %>
+    <p><%= link_to "プロフィール編集", edit_user_path(@user), class: "pull-right" %></p>
+  <% end %>
 </div>
 
 <section class="sct-color-1 slice">
@@ -23,7 +26,12 @@
                   </div>
                 </div>
                 <div class="block-content">
-                  <%= image_tag('sample-author1.jpg', class: "img-circle pull-left profile-thumb") %>
+                  <%= attachment_image_tag post_image.user, :profile_image, :fill, 100, 100, format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
+                  <!--post_imageは画像の保存先カラムにあるインスタンス名。今回はuserモデルなので@user-->
+                  <!--:profile_imageは画像の保存先のカラム名。実際のカラムはprofile_image_idだけど、refileの仕様で_idはつけない-->
+                  <!--:fillは画像の縦横サイズの指定-->
+                  <!--classはHTMLのclassタグを、Railsのタグ用に記述している？-->
+                  <!--fallback:は画像データがカラムにない時、変わりに表示する画像を指定する。app/assets/内の画像-->
                   <h3 class="block-title">
                     <%= link_to post_image_path(post_image.id) do %>
                       <i class="fa fa-map-marker"></i>
